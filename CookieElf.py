@@ -1,18 +1,43 @@
 from numpy.random import randint
 
 COOKIES: list[str] = [
-    "Georges Melies",
-    "Georges Melies",
-    "James Clerk Maxwell",
-    "James Clerk Maxwell",
-    "Mary Antoinette",
-    "Mark Twain",
-    "Clives Staples Lewis",
-    "Clives Staples Lewis",
-    "Clives Staples Lewis",
-    "Lego Man #7",
-    "Lego Man #3",
+    "JoeBob",
+    "Jean",
+    "Bart",
+    "Cinderella",
+    "Hawthorne",
+    "Leonardo",
+    "Adeline",
+    "Mateo",
+    "Leonardo",
+    "Adeline",
+    "Mateo",
+    "Kline",
+    "Lauren",
+    "William",
+    "Bambi",
+    "Richard",
+    "Wendell",
+    "Wendell",
+    "Wendell",
+    "Lennorde",
+    "Lennorde",
+    "Lennorde",
+    "Rocky",
+    "Rocky",
+    "Rocky",
 ]
+BOGARTS = ["JoeBob", "Jean", "Bart", "Cinderella", "Hawthorne"]
+IRIDRIANS = ["Leonardo", "Adeline", "Mateo"]
+AXLWAXERS = ["Kline", "Lauren", "William", "Bambi", "Richard"]
+ROBERTSON = ["Wendell"]
+SMITH = ["Rocky"]
+ANTIOC = ["Lennorde"]
+
+COOKIE_GROUPS = [BOGARTS, IRIDRIANS, AXLWAXERS, ROBERTSON, SMITH, ANTIOC]
+COOKIE_GROUP_MAP = {
+    p: g for p in set(COOKIES.copy()) for g in COOKIE_GROUPS.copy() if p in g
+}
 
 
 class CookieElf:
@@ -37,6 +62,8 @@ class CookieElf:
                 plebian
             ]  # len(["Eateth not the cookies, or they will eateth your belt." for c in self.cookies if c == plebian])
             for cookie in range(n_cookies):
+                if not other_plebians:
+                    return decree  # Return faulty decree
                 decreed_plebian = other_plebians.pop(
                     0
                     if len(other_plebians) == 1
@@ -81,7 +108,11 @@ def run_by_the_master_master_elf(
             ), f"{pleb} needs to receive {n_cookies} cookies 👎"
             assert len(set(cookies)) == len(
                 cookies
-            ), f"{pleb} is giving multiple cookies to the same person."
+            ), f"{pleb} is giving multiple cookies to the same person 👎"
+            cookie_group = COOKIE_GROUP_MAP.copy()[pleb]
+            assert not set(cookie_group).intersection(
+                cookies
+            ), f"{pleb} cannot be giving cookies to other plebs in the same family unit 👎"
 
     except AssertionError as e:
         if verbose:
